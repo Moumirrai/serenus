@@ -4,7 +4,6 @@
       <v-btn :href="loginUrl">
         <v-icon>mdi-vuetify</v-icon>
       </v-btn>
-      {{ isAuthenticated }}
     </v-responsive>
   </v-container>
 </template>

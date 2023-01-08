@@ -17,7 +17,7 @@ import { useHotkeys } from 'vue-use-hotkeys';
 import { pause } from "@/console/index"
 import { PlayerData } from "@/services/socketio.types";
 
-const overlay = ref(true);
+const overlay = ref(false);
 
 type Command = {
     name: string;
