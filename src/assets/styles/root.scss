@@ -1,0 +1,36 @@
+
+$vt-color-default: #ffc107 !default;
+$vt-text-color-default: #000 !default;
+
+$vt-color-progress-default: linear-gradient(to right, #4cd964, #5ac8fa, #007aff, #34aadc, #5856d6, #ff2d55) !default;
+
+$vt-mobile: "only screen and (max-width : 600px)" !default;
+$vt-not-mobile: "only screen and (min-width : 600px)" !default;
+$vt-font-family: "Poppins", Helvetica, "Roboto", Arial, sans-serif !default;
+$vt-z-index: 9999 !default;
+
+.Vue-Toastification__close-button {
+  color: $vt-text-color-default !important;
+  opacity: 0.7 !important;
+  &:hover {
+    opacity: 1 !important;
+  }
+}
+
+//CONSOLE
+.v-text-field__prefix, .v-text-field__suffix {
+  color: #ffcc00 !important;
+}
+
+.v-autocomplete--single.v-text-field input {
+  position: inherit !important;
+}
+
+@import "vue-toastification/src/scss/_variables";
+@import "vue-toastification/src/scss/_toastContainer";
+@import "vue-toastification/src/scss/_toast";
+@import "vue-toastification/src/scss/_closeButton";
+@import "vue-toastification/src/scss/_progressBar";
+@import "vue-toastification/src/scss/_icon";
+@import "vue-toastification/src/scss/animations/_bounce";
+@import "vue-toastification/src/scss/animations/_fade";

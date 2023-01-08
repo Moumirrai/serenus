@@ -11,13 +11,14 @@
   "dependencies": {
     "@mdi/font": "7.0.96",
     "core-js": "^3.8.3",
+    "pinia": "^2.0.0-rc.10",
     "roboto-fontface": "*",
     "socket.io-client": "^4.5.4",
     "vue": "^3.2.13",
     "vue-router": "^4.0.0",
-    "vue-socket.io-extended": "^5.0.0-alpha.5",
+    "vue-toastification": "^2.0.0-rc.5",
+    "vue-use-hotkeys": "^0.3.5",
     "vuetify": "^3.0.0",
-    "vuex": "^4.0.2",
     "webfontloader": "^1.0.0"
   },
   "devDependencies": {
@@ -27,7 +28,8 @@
     "@vue/eslint-config-typescript": "^11.0.0",
     "eslint": "^8.22.0",
     "eslint-plugin-vue": "^9.3.0",
-    "sass": "^1.55.0",
+    "sass": "^1.57.1",
+    "sass-loader": "^13.2.0",
     "typescript": "^4.0.0",
     "vite": "^3.0.9",
     "vite-plugin-vuetify": "^1.0.0-alpha.12",

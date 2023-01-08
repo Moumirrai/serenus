@@ -1,7 +1,8 @@
 export default {
-    clientId: process.env.VUE_APP_CLIENT_ID || '',
-    botApi: process.env.VUE_APP_BOT_API || '',
-    socket: process.env.VUE_APP_SOCKET || '',
+    home: `${window.location.origin}/`,
+    clientId: import.meta.env.VITE_APP_CLIENT_ID || '',
+    botApi: import.meta.env.VITE_APP_BOT_API || '',
+    socket: import.meta.env.VITE_APP_SOCKET || '',
     discordApi: "https://discord.com/api",
     discordCdn: "https://cdn.discordapp.com",
     colors: {
