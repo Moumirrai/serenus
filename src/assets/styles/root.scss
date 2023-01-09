@@ -22,9 +22,11 @@ $vt-z-index: 9999 !default;
   color: #ffcc00 !important;
 }
 
+/*
 .v-autocomplete--single.v-text-field input {
   position: inherit !important;
-}
+}*
+*/
 
 @import "vue-toastification/src/scss/_variables";
 @import "vue-toastification/src/scss/_toastContainer";

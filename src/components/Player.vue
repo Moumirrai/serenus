@@ -1,9 +1,14 @@
 <template>
   <v-container class="fill-height">
     <v-responsive class="d-flex align-center text-center fill-height">
-      <v-btn :href="loginUrl">
+      <v-btn @click="test">
         <v-icon>mdi-vuetify</v-icon>
       </v-btn>
+      <v-card>
+        {{ player?.current?.title }}
+        <v-spacer></v-spacer>
+        {{ player?.current?.author }}
+      </v-card>
     </v-responsive>
   </v-container>
 </template>
@@ -11,7 +16,7 @@
 <script lang="ts" setup>
 import { computed, reactive } from 'vue';
 import config from '@/config';
-import { useAuthStore } from "@/store"
+import { usePlayerStore, useAuthStore } from "@/store"
 import { storeToRefs } from "pinia"
 
 
@@ -24,8 +29,10 @@ type QueryParams = {
 };
 
 const authStore = useAuthStore();
+const playerStore = usePlayerStore();
 
 const { isAuthenticated } = storeToRefs(authStore);
+const { player } = storeToRefs(playerStore);
 
 const loginUrl = computed(() => {
   if (authStore.getStateParam === undefined) return
@@ -38,6 +45,10 @@ const loginUrl = computed(() => {
   };
   return `${config.discordApi}/oauth2/authorize?${new URLSearchParams(loginParams).toString()}`;
 });
+
+const test = () => {
+  console.log(player)
+}
 
 
 </script>

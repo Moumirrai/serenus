@@ -93,7 +93,7 @@ const test = () => {
 ///LIFECYCLE HOOKS
 
 onBeforeMount(() => {
-  if (isAuthenticated) {
+  if (isAuthenticated.value) {
     router.push({ path: '/' })
   }
 })
@@ -101,6 +101,7 @@ onBeforeMount(() => {
 watch(isAuthenticated, (val) => {
   console.log(val)
   if (val) {
+    console.log("redirecting")
     router.push({ path: '/' })
   }
 })

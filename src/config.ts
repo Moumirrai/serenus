@@ -5,6 +5,7 @@ export default {
     socket: import.meta.env.VITE_APP_SOCKET || '',
     discordApi: "https://discord.com/api",
     discordCdn: "https://cdn.discordapp.com",
+    statusUrl: "https://flavus.instatus.com/",
     colors: {
         default: "#344675",
         primary: "#42b883",

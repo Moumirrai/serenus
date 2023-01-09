@@ -4,6 +4,9 @@ import { randomString } from "@/utils/randomString";
 import { socket } from "@/services/socketio";
 import { useToast } from "vue-toastification";
 import { useGlobalToast } from "@/plugins/toast";
+import config from "@/config";
+
+import HrefToast from "@/components/toasts/HrefToast.vue";
 
 const globalToast = useGlobalToast();
 
@@ -36,7 +39,6 @@ export const useAuthStore = defineStore("auth", {
         if (!authCode) {
           this.ongoingAuth = false;
           this.clearAuth();
-          //TODO: toast error, and redirect to login page
           return;
         }
 
@@ -45,8 +47,34 @@ export const useAuthStore = defineStore("auth", {
           headers: {
             authorization: `${authCode}`,
           },
+        }).catch((err) => {
+          this.ongoingAuth = false;
+          globalToast.error(
+            {
+              component: HrefToast,
+              props: {
+                title: "API is unavailable!",
+                hrefText: "Check status page",
+                href: config.statusUrl,
+              },
+            },
+            { timeout: 30000 }
+          );
+          this.clearAuth();
+          return;
         });
-        if (!res.ok) {
+        if (!res || !res.ok) {
+          globalToast.error(
+            {
+              component: HrefToast,
+              props: {
+                title: "API is unavailable!",
+                hrefText: "Check status page",
+                href: config.statusUrl,
+              },
+            },
+            { timeout: 30000 }
+          );
           this.ongoingAuth = false;
           this.clearAuth();
           return;
@@ -55,6 +83,7 @@ export const useAuthStore = defineStore("auth", {
         if (!user || !user.id) {
           this.ongoingAuth = false;
           this.clearAuth();
+          return;
         }
         //SUCCESSFUL LOGIN
         this.code = authCode;
@@ -71,7 +100,7 @@ export const useAuthStore = defineStore("auth", {
     },
     logout() {
       this.clearAuth();
-      //TODO: redirect to login page
+      globalToast.success("Logged out successfully!");
     },
     clearAuth() {
       this.code = undefined;
