@@ -25,20 +25,46 @@ class SocketIOManager {
       this.globalToast.success("Socket connected");
     });
     this.socket.on("disconnect", () => {
+      this.playerStore.$reset();
       this.globalToast.error("Socket disconnected");
     });
   }
   private playerListener() {
-    this.socket.on("player:data", (player) => {
+    this.socket.on("player:data", (playerData) => {
       //player will have only fraction of data, i want you to take whats inside and assign it to the correspoinding key in store
-      if (player.player !== undefined) {
-        console.log("debug1");
-        this.playerStore.player = player.player;
+      if (playerData.player !== undefined) {
+        const oldTrack = this.playerStore.player?.current?.identifier;
+        this.playerStore.player = playerData.player;
+        if (oldTrack !== playerData.player?.current?.identifier) {
+          var img = new Image();
+          img.src = `https://img.youtube.com/vi/${playerData.player?.current?.identifier}/maxresdefault.jpg`;
+          img.onload = () => {
+            if (img.width !== 120) {
+              this.playerStore.hqThumb = `https://img.youtube.com/vi/${playerData.player?.current?.identifier}/maxresdefault.jpg`;
+            } else {
+              this.playerStore.hqThumb = undefined;
+            }
+          };
+        }
       }
-      console.log("player:data", player);
+      if (playerData.guild !== undefined)
+        this.playerStore.guild = playerData.guild;
+      if (playerData.paused !== undefined)
+        this.playerStore.paused = playerData.paused;
+      if (playerData.playing !== undefined)
+        this.playerStore.playing = playerData.playing;
+      if (playerData.position !== undefined)
+        this.playerStore.position = playerData.position;
+      if (playerData.queueRepeat !== undefined)
+        this.playerStore.queueRepeat = playerData.queueRepeat;
+      if (playerData.state !== undefined)
+        this.playerStore.state = playerData.state;
     });
     this.socket.on("player:queueData", (queue) => {
-      console.log("player:queueData", queue);
+      if (queue !== undefined) this.playerStore.queue = queue;
+    });
+    this.socket.on("player:error", (error) => {
+      this.globalToast.error(error);
     });
   }
 }

@@ -17,8 +17,6 @@ const playerStore = usePlayerStore();
 const { isAuthenticated } = storeToRefs(authStore);
 const router = useRouter()
 
-console.log(1)
-
 onMounted(() => {
   authStore.setStateParam()
   authStore.login()

@@ -44,7 +44,7 @@ export type ClientToServerEvents = {
   "player:pause": (payload: boolean) => void;
   "player:removeTrack": (payload: number) => void;
   "player:seek": (payload: number) => void;
-  "player:skip": (payload: number) => void;
+  "player:skip": (payload?: number) => void;
   "player:stop": () => void;
   "player:test": (payload: any) => void;
 };
@@ -53,4 +53,5 @@ export type ServerToClientEvents = {
   "player:data": (payload: PlayerData) => void;
   "player:queueData": (payload: QueueData) => void;
   "api:rateLimit": (payload: string) => void;
+  "player:error": (payload: string) => void;
 };

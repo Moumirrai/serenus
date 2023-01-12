@@ -28,5 +28,10 @@ export type State = {
       hash: string;
     };
   };
-  queue?: Track[];
+  queue?:{
+    size: number;
+    hash: string;
+    tracks: Track[];
+  };
+  hqThumb?: string;
 };
