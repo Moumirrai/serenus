@@ -54,4 +54,5 @@ export type ServerToClientEvents = {
   "player:queueData": (payload: QueueData) => void;
   "api:rateLimit": (payload: string) => void;
   "player:error": (payload: string) => void;
+  "player:trackAdded": (payload: string) => void;
 };

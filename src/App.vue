@@ -1,29 +1,26 @@
 <template>
-  <v-fade-transition>
-    <router-view />
-  </v-fade-transition>
+  <router-view />
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from 'vue';
-import { useAuthStore, usePlayerStore } from "@/store"
-import { SocketIOManager } from "@/services/socketio.manager"
-import { useRouter } from 'vue-router'
-import { storeToRefs } from "pinia"
+import { onMounted } from "vue";
+import { useAuthStore, usePlayerStore } from "@/store";
+import { SocketIOManager } from "@/services/socketio.manager";
+import { useRouter } from "vue-router";
+import { storeToRefs } from "pinia";
 import "@/assets/styles/root.scss";
 
 const authStore = useAuthStore();
 const playerStore = usePlayerStore();
 const { isAuthenticated } = storeToRefs(authStore);
-const router = useRouter()
+const router = useRouter();
 
 onMounted(() => {
-  authStore.setStateParam()
-  authStore.login()
+  authStore.setStateParam();
+  authStore.login();
   if (!isAuthenticated.value) {
-    router.push('/Login')
+    router.push("/Login");
   }
-  new SocketIOManager(authStore, playerStore)
-})
-
+  new SocketIOManager(authStore, playerStore);
+});
 </script>

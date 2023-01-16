@@ -1,10 +1,10 @@
 <template>
   <v-container class="fill-height" fluid>
     <v-responsive class="d-flex fill-height">
-      <player-media-session />
+      <player-media-session v-if="ifCurrentTrack" />
       <div v-if="!smAndDown" class="mx-16">
         <v-row class="mt-16">
-          <v-col :cols="7">
+          <v-col :cols="7" class="d-flex">
             <v-card color="background" flat class="fill-height">
               <p class="track-title">
                 <span>
@@ -13,13 +13,15 @@
                   }}
                 </span>
               </p>
-              <p class="track-author">
-                <span>
+              <p class="track-author" @click="searchAuthor">
+                <span v-if="ifCurrentTrack">
                   {{ player?.current?.author }}
+                  <v-icon size="20" class="ml-1">mdi-magnify</v-icon>
                 </span>
               </p>
             </v-card>
           </v-col>
+          <v-spacer></v-spacer>
           <v-col cols="4">
             <v-card color="background" class="fill-height" flat>
               <v-img
@@ -72,7 +74,12 @@
         </v-row>
       </div>
       <v-card :class="xs ? 'mobile-footer' : 'footer'" flat color="background">
-        <v-row class="mt-5 mx-5 d-flex align-center">
+        <v-row class="d-flex justify-center mt-5 test">
+          <v-icon @click="playerStore.dialog = true" class="chevron-up"
+            >mdi-chevron-up</v-icon
+          >
+        </v-row>
+        <v-row class="mx-5 d-flex align-center">
           <span>{{ format(positionComputed) }}</span>
           <v-slider
             v-model="positionComputed"
@@ -110,6 +117,7 @@
         </v-row>
       </v-card>
     </v-responsive>
+    <player-dialog />
   </v-container>
 </template>
 
@@ -121,6 +129,7 @@ import { usePlayerStore, useAuthStore } from "@/store";
 import { storeToRefs } from "pinia";
 import format from "format-duration";
 import PlayerMediaSession from "./PlayerMediaSession.vue";
+import PlayerDialog from "./dialogs/PlayerDialog.vue";
 
 const { smAndDown, xs } = useDisplay();
 
@@ -129,13 +138,12 @@ const positionBar = reactive({
   isDragged: false,
 });
 
-const thumbnail = ref("");
-
 const authStore = useAuthStore();
 const playerStore = usePlayerStore();
 
 const { isAuthenticated } = storeToRefs(authStore);
-const { player, position, playing, paused, hqThumb } = storeToRefs(playerStore);
+const { player, position, playing, paused, hqThumb, ifCurrentTrack } =
+  storeToRefs(playerStore);
 
 const positionComputed: WritableComputedRef<number> = computed({
   get(): number {
@@ -171,9 +179,49 @@ window.addEventListener(
   },
   false
 );
+
+window.addEventListener(
+  "wheel",
+  (e) => {
+    if (!isAuthenticated.value) return;
+    if (!e.ctrlKey) return;
+    if (e.deltaY < 0) {
+      e.preventDefault();
+      playerStore.dialog = true;
+    } else {
+      e.preventDefault();
+      playerStore.dialog = false;
+    }
+  },
+  { passive: false }
+);
+
+function searchAuthor(e: MouseEvent) {
+  if (!player?.value?.current) return;
+  if (e.ctrlKey) {
+    return window.open(
+      `https://www.youtube.com/results?search_query=${player.value.current.author}`,
+      "_blank"
+    );
+  }
+  console.log("pepe");
+}
 </script>
 
 <style scoped lang="scss">
+.chevron-up {
+  font-weight: 100;
+  transform: scale(2, 1);
+  transition: all 0.5s ease;
+  &:hover {
+    color: #ffcc00 !important;
+    //animate little moovment down and back to original position
+    transform: scale(2, 1) translateY(-2px);
+  }
+}
+
+.author_text {
+}
 .footer {
   position: absolute;
   bottom: 20px;
@@ -189,7 +237,8 @@ window.addEventListener(
 }
 
 .test {
-  background-color: red;
+  //moove down 15px
+  transform: translateY(15px);
 }
 
 .track-title {
@@ -207,6 +256,13 @@ window.addEventListener(
   font-size: calc(1rem + 0.5vw);
   color: #ababab;
   font-weight: 500;
+
+  transition: all 0.5s ease;
+  &:hover {
+    color: #ebebeb !important;
+    transform: translateY(-2px);
+    cursor: pointer;
+  }
 }
 
 .mobile-track-title {

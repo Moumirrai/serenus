@@ -14,10 +14,13 @@ export const usePlayerStore = defineStore("player", {
       queueRepeat: false,
       state: false,
       hqThumb: undefined,
+      dialog: false,
     };
   },
   getters: {
     ifCurrentTrack: (state) => state.player?.current !== undefined,
+    getCurrentTrack: (state) => state.player?.current,
+    ifDialog: (state) => state.dialog,
   },
   actions: {
     pause() {

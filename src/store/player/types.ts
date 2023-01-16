@@ -34,4 +34,5 @@ export type State = {
     tracks: Track[];
   };
   hqThumb?: string;
+  dialog?: boolean;
 };

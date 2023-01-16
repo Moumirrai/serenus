@@ -36,3 +36,5 @@ $vt-z-index: 9999 !default;
 @import "vue-toastification/src/scss/_icon";
 @import "vue-toastification/src/scss/animations/_bounce";
 @import "vue-toastification/src/scss/animations/_fade";
+
+html { overflow-y: auto !important; }

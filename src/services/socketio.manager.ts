@@ -46,6 +46,14 @@ class SocketIOManager {
             }
           };
         }
+      } else {
+        this.playerStore.player = undefined;
+        this.playerStore.position = 0;
+        this.playerStore.queue = undefined;
+        this.playerStore.playing = false;
+        this.playerStore.paused = false;
+        this.playerStore.queueRepeat = false;
+        this.playerStore.hqThumb = undefined;
       }
       if (playerData.guild !== undefined)
         this.playerStore.guild = playerData.guild;
@@ -65,6 +73,9 @@ class SocketIOManager {
     });
     this.socket.on("player:error", (error) => {
       this.globalToast.error(error);
+    });
+    this.socket.on("api:rateLimit", (rateLimit) => {
+      this.globalToast.error(rateLimit);
     });
   }
 }
