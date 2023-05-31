@@ -42,7 +42,7 @@ export const useAuthStore = defineStore("auth", {
           return;
         }
 
-        let res = await fetch(`/api/auth`, {
+        let res = await fetch("/api/auth", {
           method: "POST",
           headers: {
             authorization: `${authCode}`,
